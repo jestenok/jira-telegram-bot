@@ -6,15 +6,20 @@ from sqlalchemy.engine.url import URL
 import os
 from pathlib import Path
 
+from telegram import Bot
+
 from dotenv import load_dotenv
 
 
-dotenv_path = Path(__file__).parent.parent.joinpath('.env')
+dotenv_path = Path(__file__).parent.joinpath('.env')
 load_dotenv(dotenv_path)
+
+TOKEN = os.environ.get('TELEGRAM_TOKEN')
+bot = Bot(TOKEN)
 
 DATABASE = {
     'drivername': 'postgresql',
-    'host': 'db',
+    'host': os.environ.get('DB_HOST'),
     'port': '5432',
     'database': 'server',
     'username': os.environ.get('DB_USERNAME'),
