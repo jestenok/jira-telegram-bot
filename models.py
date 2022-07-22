@@ -3,7 +3,7 @@ from settings import Base, db_session
 
 
 class User(Base):
-    __tablename__ = 'users'
+    __tablename__ = 'user'
 
     id = Column(Integer, primary_key=True)
     username = Column(String(32))
@@ -30,13 +30,13 @@ class User(Base):
 
     photo_id = Column(String(255))
 
-    def __init__(self, **kwargs: object) -> None:
+    def __init__(self, **kwargs):
         self.__dict__.update(kwargs)
         db_session.add(self)
         db_session.commit()
 
     def __repr__(self):
-        return "".format(self.username)
+        return self.username
 
     def edit(self, **kwargs):
         for key, value in kwargs.items():
@@ -51,3 +51,7 @@ class User(Base):
             u = User(**update.effective_user.to_dict())
 
         return u
+
+    @classmethod
+    def get_user_by_jira_username(cls, jira_username):
+        return db_session.query(User).filter(User.jira_username == jira_username).first()

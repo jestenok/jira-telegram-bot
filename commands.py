@@ -29,7 +29,7 @@ async def telegram_handle(request):
 
 @add_to_commands('/start')
 async def start(update) -> None:
-    u = db_session.query(User).get(update.effective_user.id)
+    u = User.get_user_from_update(update)
 
     await update.message.reply_html(
         rf"Hi {u}!",
@@ -44,7 +44,7 @@ async def help_command(update) -> None:
 
     if getattr(message, 'reply_to_message'):
         if getattr(message.reply_to_message, 'text') == 'Введите ваше имя пользователя в jira':
-            u.edit(jira_username=message.text)
+            u.edit(jira_username=message.text.lower())
             await update.message.reply_text("Аккаунт jira успешно привязан")
 
 
