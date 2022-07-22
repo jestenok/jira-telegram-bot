@@ -1,6 +1,6 @@
 from telegram import ForceReply, Update
 from aiohttp import web
-from settings import init_db, db_session, bot
+from settings import db_session, bot
 from models import User
 
 
@@ -9,6 +9,7 @@ commands = {}
 
 def add_to_commands(command):
     def dec(func):
+        global commands
         commands[command] = func
 
         def wrapper(*args):
@@ -19,6 +20,7 @@ def add_to_commands(command):
 
 async def telegram_handle(request):
     json = await request.json()
+    print(json)
     update = Update.de_json(json, bot)
 
     await commands.get(update.message.text, commands.get('/default'))(update)
@@ -27,26 +29,27 @@ async def telegram_handle(request):
 
 @add_to_commands('/start')
 async def start(update) -> None:
-    user = update.effective_user
-    u = db_session.query(User).get(user.id)
-    if not u:
-        u = User(**user.to_dict())
-        db_session.add(u)
-        db_session.commit()
+    u = db_session.query(User).get(update.effective_user.id)
 
     await update.message.reply_html(
-        rf"Hi {user.mention_html()}!",
+        rf"Hi {u}!",
         reply_markup=ForceReply(selective=True),
     )
 
 
 @add_to_commands('/default')
 async def help_command(update) -> None:
-    await update.message.reply_text("Help!")
+    u = User.get_user_from_update(update)
+    message = update.message
+
+    if getattr(message, 'reply_to_message'):
+        if getattr(message.reply_to_message, 'text') == 'Введите ваше имя пользователя в jira':
+            u.edit(jira_username=message.text)
+            await update.message.reply_text("Аккаунт jira успешно привязан")
 
 
+@add_to_commands('/jira')
 async def jira(update) -> None:
-    user = update.effective_user
-    u = db_session.query(User).get(user.id)
-
-    await update.message.reply_text("Help!")
+    u = User.get_user_from_update(update)
+    await update.message.reply_html("Введите ваше имя пользователя в jira",
+                                        reply_markup=ForceReply(selective=True))
