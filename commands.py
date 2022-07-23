@@ -1,6 +1,6 @@
 from telegram import ForceReply, Update
 from aiohttp import web
-from settings import db_session, bot
+from settings import jira, bot
 from models import User
 
 
@@ -23,7 +23,12 @@ async def telegram_handle(request):
     print(json)
     update = Update.de_json(json, bot)
 
-    await commands.get(update.message.text, commands.get('/default'))(update)
+    callback_query = getattr(update, 'callback_query')
+    if callback_query:
+        issue_id, status_id = callback_query.data.split('/')
+        jira.transition_issue(issue_id, status_id)
+    else:
+        await commands.get(update.message.text, commands.get('/default'))(update)
     return web.Response()
 
 
@@ -49,7 +54,7 @@ async def help_command(update) -> None:
 
 
 @add_to_commands('/jira')
-async def jira(update) -> None:
+async def jira_account(update) -> None:
     u = User.get_user_from_update(update)
     await update.message.reply_html("Введите ваше имя пользователя в jira",
-                                        reply_markup=ForceReply(selective=True))
+                                    reply_markup=ForceReply(selective=True))
