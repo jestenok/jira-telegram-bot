@@ -8,8 +8,6 @@ from pathlib import Path
 
 from telegram import Bot
 
-from jira import JIRA
-
 from dotenv import load_dotenv
 
 
@@ -19,9 +17,8 @@ load_dotenv(dotenv_path)
 TOKEN = os.environ.get('TELEGRAM_TOKEN')
 bot = Bot(TOKEN)
 
-jira = JIRA(os.environ.get('JIRA_HOST'),
-            auth=(os.environ.get('LOGIN'),
-                  os.environ.get('JIRA_PASSWORD')))
+JIRA_HOST = os.environ.get('JIRA_HOST')
+JIRA_DOMAINNAME= os.environ.get("JIRA_DOMAINNAME")
 
 DATABASE = {
     'drivername': 'postgresql',
@@ -44,5 +41,5 @@ Base.query = db_session.query_property()
 
 
 def init_db():
-    import models
+    from models import User
     Base.metadata.create_all(bind=engine)

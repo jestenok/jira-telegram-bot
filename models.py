@@ -1,5 +1,6 @@
 from sqlalchemy import Column, Integer, String, DateTime, Boolean, sql
-from settings import Base, db_session
+from settings import Base, db_session, JIRA_HOST
+from jira import JIRA
 
 
 class User(Base):
@@ -13,6 +14,7 @@ class User(Base):
     deep_link = Column(String(64))
 
     jira_username = Column(String(32))
+    jira_token = Column(String(50))
 
     is_blocked_bot = Column(Boolean)
     is_banned = Column(Boolean)
@@ -43,6 +45,18 @@ class User(Base):
             setattr(self, key, value)
         db_session.add(self)
         db_session.commit()
+
+    def jira_session(self, token=None):
+        if token:
+            jira = JIRA(JIRA_HOST, token_auth=token)
+            try:
+                jira_username = jira.current_user()
+            except:
+                return None
+
+            self.edit(jira_username=jira_username, jira_token=token)
+
+        return JIRA(JIRA_HOST, token_auth=self.jira_token)
 
     @classmethod
     def get_user_from_update(cls, update):
