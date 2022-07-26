@@ -50,16 +50,21 @@ async def start(update) -> None:
 
 
 @add_to_commands('/default')
-async def help_command(update) -> None:
-    u = User.get_user_from_update(update)
-    message = update.message
+async def default(update) -> None:
+    if getattr(update.message, 'reply_to_message'):
+        await reply_to_message(update)
 
-    if getattr(message, 'reply_to_message'):
-        if message.reply_to_message.entities[0]['url'] == static_text.jira_auth_link:
-            if not u.jira_session(message.text):
-                await update.message.reply_text("Неверный токен доступа")
-            else:
-                await update.message.reply_text("Аккаунт jira успешно привязан")
+
+async def reply_to_message(update):
+    u = User.get_user_from_update(update)
+
+    if update.message.reply_to_message.entities[0]['url'] == static_text.jira_auth_link:
+        if len(update.message.text) <= 15:
+            await update.message.reply_text("Не название, а сам токен")
+        elif not u.jira_session(update.message.text):
+            await update.message.reply_text("Неверный токен доступа")
+        else:
+            await update.message.reply_text("Аккаунт jira успешно привязан")
 
 
 @add_to_commands('/jira')
