@@ -1,7 +1,7 @@
 from aiohttp import web
-from models import User
-from settings import bot
-from telegram import InlineKeyboardButton, InlineKeyboardMarkup, Update
+from app.models import User
+from app.settings import bot
+from telegram import InlineKeyboardButton, InlineKeyboardMarkup
 
 
 class Issue:

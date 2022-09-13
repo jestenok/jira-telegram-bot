@@ -1,11 +1,8 @@
 from telegram import ForceReply, Update
 from aiohttp import web
-from settings import JIRA_HOST, bot
-from models import User
-from jira import JIRA
+from app.settings import bot
+from app.models import User
 import static_text
-import os
-
 
 commands = {}
 

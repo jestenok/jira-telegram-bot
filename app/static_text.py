@@ -1,4 +1,4 @@
-from settings import JIRA_HOST, JIRA_DOMAINNAME
+from app.settings import JIRA_DOMAINNAME
 
 jira_auth_link = f'{JIRA_DOMAINNAME}/secure/ViewProfile.jspa?' \
                  f'selectedTab=com.atlassian.pats.pats-plugin:jira-user-personal-access-tokens'

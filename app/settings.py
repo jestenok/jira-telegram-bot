@@ -8,11 +8,18 @@ from pathlib import Path
 
 from telegram import Bot
 
-from dotenv import load_dotenv
 
+with open('../.env', 'r') as fh:
+    vars_dict = {}
+    for line in fh:
+        if line.startswith('#') or line == '\n':
+            continue
+        key, val = line.replace('\n', '').split('=', maxsplit=1)
+        vars_dict[key] = val.strip()
 
-dotenv_path = Path(__file__).parent.joinpath('.env')
-load_dotenv(dotenv_path)
+os.environ.update(vars_dict)
+# dotenv_path = Path(__file__).parent.joinpath('.env')
+# load_dotenv(dotenv_path)
 
 TOKEN = os.environ.get('TELEGRAM_TOKEN')
 bot = Bot(TOKEN)

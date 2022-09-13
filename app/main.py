@@ -1,6 +1,6 @@
-from settings import init_db, TOKEN
+from app.settings import init_db, TOKEN
 from commands import telegram_handle
-from jira_webhook.jira import jira_handle
+from app.remote.jira import jira_handle
 
 from aiohttp import web
 
