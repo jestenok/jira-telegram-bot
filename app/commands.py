@@ -4,19 +4,6 @@ from app.settings import bot
 from app.models import User
 import static_text
 
-commands = {}
-
-
-def add_to_commands(command):
-    def dec(func):
-        global commands
-        commands[command] = func
-
-        def wrapper(*args):
-            func(*args)
-        return wrapper
-    return dec
-
 
 async def telegram_handle(request):
     json = await request.json()
@@ -31,12 +18,21 @@ async def telegram_handle(request):
 
         jira = u.jira_session()
         jira.transition_issue(issue_id, status_id)
-    else:
-        await commands.get(update.message.text, commands.get('/default'))(update)
+        return web.Response()
+
+    if getattr(update.message, 'reply_to_message'):
+        await reply_to_message(update)
+        return web.Response()
+
+    match update.message.text:
+        case '/start':
+            await start(update)
+        case '/jira':
+            await jira_account(update)
+
     return web.Response()
 
 
-@add_to_commands('/start')
 async def start(update) -> None:
     u = User.get_user_from_update(update)
 
@@ -44,12 +40,6 @@ async def start(update) -> None:
         rf"Hi {u}!",
         reply_markup=ForceReply(selective=True),
     )
-
-
-@add_to_commands('/default')
-async def default(update) -> None:
-    if getattr(update.message, 'reply_to_message'):
-        await reply_to_message(update)
 
 
 async def reply_to_message(update):
@@ -64,7 +54,6 @@ async def reply_to_message(update):
             await update.message.reply_text("Аккаунт jira успешно привязан")
 
 
-@add_to_commands('/jira')
 async def jira_account(update) -> None:
     await update.message.reply_html(static_text.jira_auth,
                                     reply_markup=ForceReply(selective=True))
