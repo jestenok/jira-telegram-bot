@@ -9,7 +9,7 @@ from pathlib import Path
 from telegram import Bot
 
 
-with open('../.env', 'r') as fh:
+with open('.env', 'r') as fh:
     vars_dict = {}
     for line in fh:
         if line.startswith('#') or line == '\n':
@@ -25,7 +25,9 @@ TOKEN = os.environ.get('TELEGRAM_TOKEN')
 bot = Bot(TOKEN)
 
 JIRA_HOST = os.environ.get('JIRA_HOST')
-JIRA_DOMAINNAME= os.environ.get("JIRA_DOMAINNAME")
+JIRA_DOMAINNAME = os.environ.get("JIRA_DOMAINNAME")
+JIRA_AUTH_LINK = f'{JIRA_DOMAINNAME}/secure/ViewProfile.jspa?' \
+                 f'selectedTab=com.atlassian.pats.pats-plugin:jira-user-personal-access-tokens'
 
 DATABASE = {
     'drivername': 'postgresql',
@@ -48,5 +50,4 @@ Base.query = db_session.query_property()
 
 
 def init_db():
-    from models import User
     Base.metadata.create_all(bind=engine)

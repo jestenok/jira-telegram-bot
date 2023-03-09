@@ -1,36 +1,6 @@
 from telegram import ForceReply, Update
-from aiohttp import web
-from app.settings import bot
-from app.models import User
-import static_text
-
-
-async def telegram_handle(request):
-    json = await request.json()
-    print(json)
-    update = Update.de_json(json, bot)
-
-    callback_query = getattr(update, 'callback_query')
-    if callback_query:
-        u = User.get_user_from_update(update)
-
-        issue_id, status_id = callback_query.data.split('/')
-
-        jira = u.jira_session()
-        jira.transition_issue(issue_id, status_id)
-        return web.Response()
-
-    if getattr(update.message, 'reply_to_message'):
-        await reply_to_message(update)
-        return web.Response()
-
-    match update.message.text:
-        case '/start':
-            await start(update)
-        case '/jira':
-            await jira_account(update)
-
-    return web.Response()
+from models import User
+from settings import JIRA_AUTH_LINK
 
 
 async def start(update) -> None:
@@ -42,10 +12,22 @@ async def start(update) -> None:
     )
 
 
+async def jira_account(update) -> None:
+    jira_auth = f'Необходимо перейти по ' \
+                f'<a href="{JIRA_AUTH_LINK}">ссылке</a>, ' \
+                f'создать токен доступа (без ограничения по времени) и прислать ответом на сообщение'
+
+    await update.message.reply_html(jira_auth,
+                                    reply_markup=ForceReply(selective=True))
+
+
 async def reply_to_message(update):
     u = User.get_user_from_update(update)
 
-    if update.message.reply_to_message.entities[0]['url'] == static_text.jira_auth_link:
+    if len(update.message.reply_to_message.entities) == 0:
+        return
+
+    if update.message.reply_to_message.entities[0]['url'] == JIRA_AUTH_LINK:
         if len(update.message.text) <= 15:
             await update.message.reply_text("Не название, а сам токен")
         elif not u.jira_session(update.message.text):
@@ -54,6 +36,12 @@ async def reply_to_message(update):
             await update.message.reply_text("Аккаунт jira успешно привязан")
 
 
-async def jira_account(update) -> None:
-    await update.message.reply_html(static_text.jira_auth,
-                                    reply_markup=ForceReply(selective=True))
+async def text_message(update):
+    if update.message.text.find('люблю') != -1 \
+            and update.message.text.find('тебя') != -1 \
+            and update.message.text.find('не') == -1 \
+            and update.message.from_user.id == 1645461418:
+        await update.message.reply_text('Я тоже тебя люблю, ебанашка')
+
+
+
