@@ -15,7 +15,7 @@ spec:
   - host: {{ .Values.web.host }}
     http:
       paths:
-        - path: /{{ .Values.telegram.token }}
+        - path: /{{ .Values.telegram.token }}/
           pathType: Prefix
           backend:
             service:
