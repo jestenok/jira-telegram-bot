@@ -1,13 +1,26 @@
-FROM python:3.11 as compiler
+FROM python:3.11-slim as builder
 
-ENV PYTHONUNBUFFERED = 1
+WORKDIR /app
 
-COPY . /code
-WORKDIR /code
+ENV PYTHONDONTWRITEBYTECODE 1
+ENV PYTHONUNBUFFERED 1
 
-#RUN pip install -r requirements.txt
-#RUN pip wheel --no-cache-dir --no-deps --wheel-dir /code/wheels -r /code/requirements.txt
+RUN apt-get update && \
+    apt-get install -y --no-install-recommends gcc
 
-RUN pip install --no-cache wheels/*
+COPY requirements.txt .
+RUN pip wheel --no-cache-dir --no-deps --wheel-dir /app/wheels -r requirements.txt
 
-ENTRYPOINT ["python3", "app/main.py"]
+# Финальный этап
+FROM python:3.11-slim
+
+WORKDIR /app
+
+COPY --from=builder /app/wheels /wheels
+COPY --from=builder /app/requirements.txt .
+
+RUN pip install --no-cache /wheels/*
+
+COPY /app /app
+
+ENTRYPOINT ["python3", "/app/main.py"]
