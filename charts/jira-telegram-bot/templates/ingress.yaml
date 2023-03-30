@@ -9,7 +9,7 @@ spec:
   tls:
     - hosts:
       - {{ .Values.web.host }}
-      secretName: tls
+      secretName: "flux-system/tls"
   {{- end}}
   rules:
   - host: {{ .Values.web.host }}
