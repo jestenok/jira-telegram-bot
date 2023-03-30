@@ -34,10 +34,7 @@ spec:
               protocol: TCP
           env:
             - name: POSTGRES_DB
-              valueFrom:
-                configMapKeyRef:
-                  name: jira-telegram-bot
-                  key: db_name
+              value: {{ .Values.db.name }}
             - name: POSTGRES_USER
               valueFrom:
                 secretKeyRef:
