@@ -8,8 +8,8 @@ spec:
   {{ if .Values.web.tls.enabled }}
   tls:
     - hosts:
-        - {{ .Values.web.host }}
-      secretName: main-tls
+      - {{ .Values.web.host }}
+      secretName: tls
   {{- end}}
   rules:
   - host: {{ .Values.web.host }}
