@@ -18,7 +18,7 @@ spec:
     spec:
       containers:
         - name: jira-telegram-bot
-          image: registry.hub.docker.com/{{.Values.web.image}}
+          image: {{.Values.web.image}}
           imagePullPolicy: IfNotPresent
           ports:
             - containerPort: 8080
