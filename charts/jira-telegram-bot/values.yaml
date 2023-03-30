@@ -1,0 +1,19 @@
+web:
+  tls:
+    enabled: false
+    cert: ""
+    key: ""
+
+jira:
+  host: "http://jira.jira.svc.cluster.local./"
+  publicDomainname: "http://jira.jestenok.com"
+
+db:
+  name: "jira-telegram-bot"
+  host: "postgres"
+  port: "5432"
+  username: "jestenok"
+  password: "123"
+
+telegram:
+  token: "qwe"
