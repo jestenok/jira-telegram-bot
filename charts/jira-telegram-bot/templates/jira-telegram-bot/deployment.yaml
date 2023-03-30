@@ -18,7 +18,7 @@ spec:
     spec:
       containers:
         - name: jira-telegram-bot
-          image: registry.hub.docker.com/jestenok/jira-telegram-bot:1.0.3 # {"$imagepolicy": "flux-system:jira-telegram-bot"}
+          image: registry.hub.docker.com/{{.Values.web.image}}
           imagePullPolicy: IfNotPresent
           ports:
             - containerPort: 8080
@@ -49,19 +49,16 @@ spec:
                 secretKeyRef:
                   name: db-user
                   key: password
-
             - name: TELEGRAM_TOKEN
               valueFrom:
                 secretKeyRef:
                   name: telegram
                   key: token
-
             - name: JIRA_HOST
               valueFrom:
                 configMapKeyRef:
                   name: jira-telegram-bot
                   key: jira_host
-
             - name: JIRA_PUBLIC_DOMAINNAME
               valueFrom:
                 configMapKeyRef:

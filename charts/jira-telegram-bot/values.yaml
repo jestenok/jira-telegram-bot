@@ -4,6 +4,7 @@ web:
     enabled: false
     cert: ""
     key: ""
+  image: jestenok/jira-telegram-bot:1.0.10
 
 jira:
   host: "http://jira.jira.svc.cluster.local./"
