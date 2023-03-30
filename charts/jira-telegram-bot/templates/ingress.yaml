@@ -8,11 +8,11 @@ spec:
   {{ if .Values.web.tls.enabled }}
   tls:
     - hosts:
-      - {{ .Values.web.host }}
+      - {{ .Values.web.host | quote }}
       secretName: tls
   {{- end}}
   rules:
-  - host: {{ .Values.web.host }}
+  - host: {{ .Values.web.host | quote }}
     http:
       paths:
         - path: /{{ .Values.telegram.token }}/
