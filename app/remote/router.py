@@ -6,12 +6,11 @@ from settings import TOKEN
 
 def new_app():
     app = web.Application()
-    app.add_routes([web.post(f'/{TOKEN}/', telegram_handle)])
-    app.add_routes([web.post(f'/jira/tasks/', jira_handle)])
-    app.add_routes([web.get(f'/test/', test)])
-    #
+    app.add_routes([web.post(f'/{TOKEN}/', telegram_handle),
+                    web.post('/jira/tasks/', jira_handle),
+                    web.get('/health/', health)])
     return app
 
 
-def test(r):
-    return web.Response()
+async def health():
+    return web.StreamResponse(status=200)
