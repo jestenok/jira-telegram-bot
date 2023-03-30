@@ -1,4 +1,5 @@
 web:
+  host: "jestenok.com"
   tls:
     enabled: false
     cert: ""

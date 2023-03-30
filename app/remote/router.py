@@ -7,8 +7,8 @@ from settings import TOKEN
 def new_app():
     app = web.Application()
     app.add_routes([web.post(f'/{TOKEN}/', telegram_handle),
-                    web.post('/jira/tasks/', jira_handle),
-                    web.get('/health/', health)])
+                    web.post(f'/{TOKEN}/jira/tasks/', jira_handle),
+                    web.get(f'/{TOKEN}/health/', health)])
     return app
 
 
