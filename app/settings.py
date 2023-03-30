@@ -25,8 +25,7 @@ DATABASE = {
     'password': os.environ.get('DB_PASSWORD')
 }
 
-engine = create_engine(URL.create(**DATABASE),
-                       connect_args={'options': '-csearch_path={}'.format('telegram')})
+engine = create_engine(URL.create(**DATABASE))
 
 db_session = scoped_session(sessionmaker(autocommit=False,
                                          autoflush=True,
