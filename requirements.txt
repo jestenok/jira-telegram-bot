@@ -1,5 +1,5 @@
 sqlalchemy~=1.4.9
-python-telegram-bot==20.0a0
+python-telegram-bot
 aiohttp~=3.8.1
 asyncio~=3.4.3
 psycopg2-binary
