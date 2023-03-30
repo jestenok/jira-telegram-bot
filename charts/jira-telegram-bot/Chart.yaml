@@ -1,0 +1,4 @@
+apiVersion: v1
+name: jira-telegram-bot
+description: telegram bot for jira
+version: 1
