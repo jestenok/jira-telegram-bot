@@ -12,5 +12,5 @@ def new_app():
     return app
 
 
-async def health():
+async def health(r):
     return web.StreamResponse(status=200)
