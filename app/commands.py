@@ -34,14 +34,3 @@ async def reply_to_message(update):
             await update.message.reply_text("Неверный токен доступа")
         else:
             await update.message.reply_text("Аккаунт jira успешно привязан")
-
-
-async def text_message(update):
-    if update.message.text.find('люблю') != -1 \
-            and update.message.text.find('тебя') != -1 \
-            and update.message.text.find('не') == -1 \
-            and update.message.from_user.id == 1645461418:
-        await update.message.reply_text('Я тоже тебя люблю, ебанашка')
-
-
-

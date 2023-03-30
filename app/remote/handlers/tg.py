@@ -26,7 +26,7 @@ async def telegram_handle(request):
     elif update.message.text[0] == '/':
         match update.message.text.lower():
             case '/start':
-                await commands.start(update)
+                await commands.jira_account(update)
             case '/jira':
                 await commands.jira_account(update)
 
