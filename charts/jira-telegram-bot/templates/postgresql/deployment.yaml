@@ -17,16 +17,16 @@ spec:
         k8s-app: postgres
     spec:
       volumes:
-        - name: jira
+        - name: jira-telegram-bot
           persistentVolumeClaim:
-            claimName: jira
+            claimName: jira-telegram-bot
       containers:
         - name: postgres
           image: postgres:latest
           imagePullPolicy: IfNotPresent
           volumeMounts:
             - mountPath: /var/lib/postgresql
-              name: jira
+              name: jira-telegram-bot
               subPath: pg
           ports:
             - containerPort: {{ .Values.db.port }}
