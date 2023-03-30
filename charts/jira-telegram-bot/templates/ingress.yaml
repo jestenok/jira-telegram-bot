@@ -2,7 +2,7 @@ apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
   namespace: {{ .Release.Namespace | quote }}
-  name: mysite
+  name: jira-telegram-bot
 spec:
   ingressClassName: nginx
   {{ if .Values.web.tls.enabled }}
@@ -15,7 +15,7 @@ spec:
   - host: {{ .Values.web.host }}
     http:
       paths:
-        - path: /
+        - path: /{{ .Values.telegram.token }}
           pathType: Prefix
           backend:
             service:

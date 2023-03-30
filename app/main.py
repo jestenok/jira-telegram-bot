@@ -1,4 +1,4 @@
-from app.settings import init_db
+from settings import init_db
 from aiohttp import web
 from remote.router import new_app
 

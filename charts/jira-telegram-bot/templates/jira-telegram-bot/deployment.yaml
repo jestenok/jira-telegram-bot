@@ -4,7 +4,7 @@ metadata:
   labels:
     k8s-app: jira-telegram-bot
   name: jira-telegram-bot
-  namespace: {{ .Release.Namespace }}
+  namespace: jira-telegram-bot
 spec:
   replicas: 1
   revisionHistoryLimit: 10
@@ -18,7 +18,7 @@ spec:
     spec:
       containers:
         - name: jira-telegram-bot
-          image: registry.hub.docker.com/jestenok/jira-telegram-bot:1.0.1 # {"$imagepolicy": "flux-system:jira-telegram-bot"}
+          image: registry.hub.docker.com/jestenok/jira-telegram-bot:1.0.2 # {"$imagepolicy": "flux-system:jira-telegram-bot"}
           imagePullPolicy: IfNotPresent
           ports:
             - containerPort: 8000
@@ -29,7 +29,7 @@ spec:
             - name: DB_HOST
               value: {{ .Values.db.host }}
             - name: DB_PORT
-              value: {{ .Values.db.port }}
+              value: {{ .Values.db.port | quote }}
             - name: DB_USERNAME
               valueFrom:
                 secretKeyRef:
@@ -48,6 +48,6 @@ spec:
                   key: token
 
             - name: JIRA_HOST
-              value: {{ .Values.jira.host }}
+              value: {{ .Values.jira.host | quote }}
             - name: JIRA_PUBLIC_DOMAINNAME
-              value: {{ .Values.jira.publicDomainname }}
+              value: {{ .Values.jira.publicDomainname | quote }}
