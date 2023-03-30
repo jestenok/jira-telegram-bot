@@ -1,0 +1,12 @@
+kind: ConfigMap
+apiVersion: v1
+metadata:
+  name: jira-telegram-bot
+data:
+  domainname: {{.Values.web.host | quote}}
+  db_name: {{.Values.db.name | quote}}
+  db_host: {{.Values.db.host | quote}}
+  db_port: {{.Values.db.port | quote}}
+
+  jira_host: {{ .Values.jira.host | quote }}
+  jira_public_domainname: {{ .Values.jira.publicDomainname | quote }}

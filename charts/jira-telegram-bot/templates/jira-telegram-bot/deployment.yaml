@@ -18,18 +18,27 @@ spec:
     spec:
       containers:
         - name: jira-telegram-bot
-          image: registry.hub.docker.com/jestenok/jira-telegram-bot:1.0.2 # {"$imagepolicy": "flux-system:jira-telegram-bot"}
+          image: registry.hub.docker.com/jestenok/jira-telegram-bot:1.0.3 # {"$imagepolicy": "flux-system:jira-telegram-bot"}
           imagePullPolicy: IfNotPresent
           ports:
             - containerPort: 8000
               protocol: TCP
           env:
             - name: DB_NAME
-              value: {{ .Values.db.name }}
+              valueFrom:
+                configMapKeyRef:
+                  name: jira-telegram-bot
+                  key: db_name
             - name: DB_HOST
-              value: {{ .Values.db.host }}
+              valueFrom:
+                configMapKeyRef:
+                  name: jira-telegram-bot
+                  key: db_host
             - name: DB_PORT
-              value: {{ .Values.db.port | quote }}
+              valueFrom:
+                configMapKeyRef:
+                  name: jira-telegram-bot
+                  key: db_port
             - name: DB_USERNAME
               valueFrom:
                 secretKeyRef:
@@ -48,6 +57,13 @@ spec:
                   key: token
 
             - name: JIRA_HOST
-              value: {{ .Values.jira.host | quote }}
+              valueFrom:
+                configMapKeyRef:
+                  name: jira-telegram-bot
+                  key: jira_host
+
             - name: JIRA_PUBLIC_DOMAINNAME
-              value: {{ .Values.jira.publicDomainname | quote }}
+              valueFrom:
+                configMapKeyRef:
+                  name: jira-telegram-bot
+                  key: jira_public_domainname
