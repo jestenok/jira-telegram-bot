@@ -34,3 +34,11 @@ async def reply_to_message(update):
             await update.message.reply_text("Неверный токен доступа")
         else:
             await update.message.reply_text("Аккаунт jira успешно привязан")
+
+
+async def text_message(update):
+    await update.message.reply_text("Не понимаю, что ты от меня хочешь")
+
+
+async def photo_message(update):
+    await update.message.reply_text("Иди в пизду со своими фотокарточками")

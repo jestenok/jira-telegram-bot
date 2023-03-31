@@ -23,17 +23,21 @@ async def telegram_handle(request):
         jira = u.jira_session()
         jira.transition_issue(issue_id, status_id)
 
-    elif update.message.text[0] == '/':
-        match update.message.text.lower():
-            case '/start':
-                await commands.jira_account(update)
-            case '/jira':
-                await commands.jira_account(update)
+    elif update.message.text:
+        if update.message.text[0] == '/':
+            match update.message.text.lower():
+                case '/start':
+                    await commands.jira_account(update)
+                case '/jira':
+                    await commands.jira_account(update)
 
-    elif getattr(update.message, 'reply_to_message'):
-        await commands.reply_to_message(update)
+        elif getattr(update.message, 'reply_to_message'):
+            await commands.reply_to_message(update)
 
-    else:
-        await commands.text_message(update)
+        else:
+            await commands.text_message(update)
+
+    elif update.message.photo:
+        await commands.photo_message(update)
 
     return web.Response()
