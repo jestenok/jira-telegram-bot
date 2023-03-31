@@ -8,10 +8,6 @@ import commands
 async def telegram_handle(request):
     json = await request.json()
 
-    print('-'*15)
-    print(json)
-    print()
-
     update = Update.de_json(json, bot)
 
     callback_query = getattr(update, 'callback_query')
