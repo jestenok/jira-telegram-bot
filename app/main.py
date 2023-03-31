@@ -8,4 +8,5 @@ if __name__ == '__main__':
     init_db()
     print('DB initialized')
     web.run_app(new_app(),
+                access_log=None,
                 port=8080)

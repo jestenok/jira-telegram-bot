@@ -1,4 +1,5 @@
 import json
+import logging
 from aiohttp.web import middleware
 
 
@@ -6,10 +7,12 @@ from aiohttp.web import middleware
 async def log_middleware(request, handler):
     data = await request.json()
 
-    print('-' * 30)
-    print(request.url)
-    print(json.dumps(data, indent=4))
-    print()
+    info = f'''
+{request.method}: {request.url}
+{json.dumps(data, indent=4)}
+'''
+
+    logging.info(info)
 
     response = await handler(request)
     return response
