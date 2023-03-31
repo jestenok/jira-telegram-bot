@@ -35,7 +35,8 @@ db_session = scoped_session(sessionmaker(autocommit=False,
 Base = declarative_base()
 Base.query = db_session.query_property()
 
-logging.basicConfig(level=logging.INFO, filename="log.log", filemode="w",
+os.mkdir('log') if not os.path.exists('log') else None
+logging.basicConfig(level=logging.INFO, filename="log/app.log", filemode="w",
                     format="%(asctime)s %(levelname)s %(message)s")
 
 
