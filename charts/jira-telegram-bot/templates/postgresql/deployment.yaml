@@ -25,7 +25,7 @@ spec:
           image: postgres:latest
           imagePullPolicy: IfNotPresent
           volumeMounts:
-            - mountPath: /var/lib/postgresql
+            - mountPath: /var/lib/postgresql/data
               name: jira-telegram-bot
               subPath: pg
           ports:
