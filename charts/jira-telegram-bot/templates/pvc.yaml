@@ -5,7 +5,7 @@ metadata:
   namespace: jira-telegram-bot
 spec:
   capacity:
-    storage: 8Gi
+    storage: 2Gi
   hostPath:
     path: /code/storage/jira-telegram-bot
     type: DirectoryOrCreate
@@ -28,7 +28,7 @@ spec:
     - ReadWriteOnce
   resources:
     requests:
-      storage: 8Gi
+      storage: 2Gi
   volumeName: jira-telegram-bot
   storageClassName: local-path
   volumeMode: Filesystem
