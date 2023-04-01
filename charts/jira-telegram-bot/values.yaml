@@ -2,8 +2,7 @@ web:
   host: "jestenok.com"
   tls:
     enabled: false
-    cert: ""
-    key: ""
+
   image: jestenok/jira-telegram-bot:1.0.10
 
 jira:
