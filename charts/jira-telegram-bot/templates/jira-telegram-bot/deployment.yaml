@@ -30,7 +30,7 @@ spec:
           volumeMounts:
             - mountPath: /var/log
               name: jira-telegram-bot
-              subPath: logs
+              subPath: log
           env:
             - name: DB_NAME
               valueFrom:
