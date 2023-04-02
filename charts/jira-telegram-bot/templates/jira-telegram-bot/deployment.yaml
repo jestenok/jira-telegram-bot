@@ -16,6 +16,10 @@ spec:
       labels:
         k8s-app: jira-telegram-bot
     spec:
+      volumes:
+        - name: jira-telegram-bot
+          persistentVolumeClaim:
+            claimName: jira-telegram-bot
       containers:
         - name: jira-telegram-bot
           image: {{.Values.web.image}}
@@ -23,6 +27,10 @@ spec:
           ports:
             - containerPort: 8080
               protocol: TCP
+          volumeMounts:
+            - mountPath: /var/log
+              name: jira-telegram-bot
+              subPath: logs
           env:
             - name: DB_NAME
               valueFrom:
