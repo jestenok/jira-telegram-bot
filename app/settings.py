@@ -36,7 +36,7 @@ Base = declarative_base()
 Base.query = db_session.query_property()
 
 os.mkdir('log') if not os.path.exists('log') else None
-logging.basicConfig(level=logging.INFO, filename="/vat/log/jira-telegram-bot.log", filemode="w",
+logging.basicConfig(level=logging.INFO, filename="/var/log/jira-telegram-bot/bot.log", filemode="w",
                     format="%(asctime)s %(levelname)s %(message)s")
 
 

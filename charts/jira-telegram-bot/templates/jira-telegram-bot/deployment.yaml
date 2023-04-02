@@ -28,7 +28,7 @@ spec:
             - containerPort: 8080
               protocol: TCP
           volumeMounts:
-            - mountPath: /var/log
+            - mountPath: /var/log/jira-telegram-bot
               name: jira-telegram-bot
               subPath: log
           env:
