@@ -1,4 +1,4 @@
-from jira_class import Issue
+from service.jira.jira import Issue
 from aiohttp import web
 from storage.models import User
 
