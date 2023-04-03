@@ -8,36 +8,48 @@ import os
 
 from telegram import Bot
 
-TOKEN = os.environ.get('TELEGRAM_TOKEN')
+
+# Bot
+TOKEN = os.getenv('TELEGRAM_TOKEN')
 bot = Bot(TOKEN)
 
-JIRA_HOST = os.environ.get('JIRA_HOST')
 
-JIRA_PUBLIC_DOMAINNAME = os.environ.get("JIRA_PUBLIC_DOMAINNAME")
+# Jira
+JIRA_HOST = os.getenv('JIRA_HOST')
+
+JIRA_PUBLIC_DOMAINNAME = os.getenv("JIRA_PUBLIC_DOMAINNAME")
 JIRA_AUTH_LINK = f'{JIRA_PUBLIC_DOMAINNAME}/secure/ViewProfile.jspa?' \
                  f'selectedTab=com.atlassian.pats.pats-plugin:jira-user-personal-access-tokens'
 
+
+# Logging
+LOG_DIR = os.getenv('LOG_DIR')
+if LOG_DIR is None:
+    LOG_DIR = '/var/log/jira-telegram-bot'
+os.mkdir(LOG_DIR) if not os.path.exists(LOG_DIR) else None
+
+logging.basicConfig(level=logging.INFO, filename=f"{LOG_DIR}/bot.log", filemode="w",
+                    format="%(asctime)s %(levelname)s %(message)s")
+
+
+# Database
 DATABASE = {
     'drivername': 'postgresql',
-    'host': os.environ.get('DB_HOST'),
-    'port': os.environ.get('DB_PORT'),
-    'database': os.environ.get('DB_NAME'),
-    'username': os.environ.get('DB_USERNAME'),
-    'password': os.environ.get('DB_PASSWORD')
+    'host': os.getenv('DB_HOST'),
+    'port': os.getenv('DB_PORT'),
+    'database': os.getenv('DB_NAME'),
+    'username': os.getenv('DB_USERNAME'),
+    'password': os.getenv('DB_PASSWORD')
 }
 
-engine = create_engine(URL.create(**DATABASE))
 
+engine = create_engine(URL.create(**DATABASE))
 db_session = scoped_session(sessionmaker(autocommit=False,
                                          autoflush=True,
                                          bind=engine))
 
 Base = declarative_base()
 Base.query = db_session.query_property()
-
-os.mkdir('log') if not os.path.exists('log') else None
-logging.basicConfig(level=logging.INFO, filename="/var/log/jira-telegram-bot/bot.log", filemode="w",
-                    format="%(asctime)s %(levelname)s %(message)s")
 
 
 def init_db():
