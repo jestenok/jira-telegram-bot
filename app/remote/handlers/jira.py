@@ -6,7 +6,6 @@ from settings import bot
 
 async def jira_handle(request):
     json = await request.json()
-    print(json)
     issue = Issue.de_json(json)
 
     initiator = User.get_user_by_jira_username(issue.initiator_name)
@@ -21,11 +20,11 @@ async def jira_handle(request):
                    f'<a href="http://jira.jestenok.com/browse/{issue.key}">{issue.summary}</a> ' \
                    f'by @{initiator_tg_username}'
         case 'jira:issue_updated':
-            fromString = f'from <b>{issue.changelog[-1]["fromString"]}</b>' if issue.changelog[-1]["fromString"] else ''
+            from_string = f'from <b>{issue.changelog[-1]["fromString"]}</b>' if issue.changelog[-1]["fromString"] else ''
 
             text = f"Task's {issue.changelog[-1]['field']} \n" \
                    f'<a href="http://jira.jestenok.com/browse/{issue.key}">{issue.summary}</a> \n' \
-                   f'changed {fromString} \n'\
+                   f'changed {from_string} \n'\
                    f'to <b>{issue.changelog[-1]["toString"]}</b> \n' \
                    f'by @{initiator_tg_username}'
         case _:
