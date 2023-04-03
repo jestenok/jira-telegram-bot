@@ -1,39 +1,26 @@
 from aiohttp import web
 from settings import bot
 from telegram import Update
-from models import User
-import commands
+from service import tg
 
 
 async def telegram_handle(request):
     json = await request.json()
-
     update = Update.de_json(json, bot)
 
-    callback_query = getattr(update, 'callback_query')
-    if callback_query:
-        u = User.get_user_from_update(update)
-
-        issue_id, status_id = callback_query.data.split('/')
-
-        jira = u.jira_session()
-        jira.transition_issue(issue_id, status_id)
-
-    elif update.message.text:
-        if update.message.text[0] == '/':
-            match update.message.text.lower():
-                case '/start':
-                    await commands.jira_account(update)
-                case '/jira':
-                    await commands.jira_account(update)
-
-        elif getattr(update.message, 'reply_to_message'):
-            await commands.reply_to_message(update)
-
-        else:
-            await commands.text_message(update)
+    if getattr(update, 'callback_query'):
+        tg.events.callback_query(update)
 
     elif update.message.photo:
-        await commands.photo_message(update)
+        await tg.events.photo_message(update)
+
+    elif update.message.text[0] == '/':
+        await tg.events.text_message(update)
+
+    elif getattr(update.message, 'reply_to_message'):
+        await tg.events.reply_to_message(update)
+
+    elif update.message.text:
+        await tg.events.text_message(update)
 
     return web.Response()

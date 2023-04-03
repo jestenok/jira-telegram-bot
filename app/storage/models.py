@@ -67,5 +67,5 @@ class User(Base):
         return u
 
     @classmethod
-    def get_user_by_jira_username(cls, jira_username):
+    def get_by_jira_username(cls, jira_username: str):
         return db_session.query(User).filter(User.jira_username == jira_username).first()
