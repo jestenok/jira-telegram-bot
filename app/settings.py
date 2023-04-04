@@ -5,6 +5,7 @@ from sqlalchemy.engine.url import URL
 import logging
 
 import os
+import sys
 
 from telegram import Bot
 
@@ -28,9 +29,19 @@ if LOG_DIR is None:
     LOG_DIR = '/var/log/jira-telegram-bot'
 os.mkdir(LOG_DIR) if not os.path.exists(LOG_DIR) else None
 
-logging.basicConfig(level=logging.INFO, filename=f"{LOG_DIR}/bot.log", filemode="w",
-                    format="%(asctime)s %(levelname)s %(message)s")
 
+logFormatter = logging.Formatter("%(asctime)s [%(threadName)-12.12s] [%(levelname)-5.5s]  %(message)s")
+
+fileHandler = logging.FileHandler("{0}/{1}.log".format(LOG_DIR, "bot.log"))
+fileHandler.setFormatter(logFormatter)
+
+rootLogger = logging.getLogger()
+rootLogger.addHandler(fileHandler)
+rootLogger.setLevel(logging.INFO)
+
+consoleHandler = logging.StreamHandler(sys.stdout)
+consoleHandler.setFormatter(logFormatter)
+rootLogger.addHandler(consoleHandler)
 
 # Database
 DATABASE = {
