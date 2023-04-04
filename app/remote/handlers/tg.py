@@ -1,7 +1,7 @@
 from aiohttp import web
 from settings import bot
 from telegram import Update
-from service. import events
+from service.tg import events
 
 
 async def telegram_handle(request):
