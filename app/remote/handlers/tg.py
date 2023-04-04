@@ -1,7 +1,7 @@
 from aiohttp import web
 from settings import bot
 from telegram import Update
-from service import tg
+from service. import events
 
 
 async def telegram_handle(request):
@@ -9,18 +9,18 @@ async def telegram_handle(request):
     update = Update.de_json(json, bot)
 
     if getattr(update, 'callback_query'):
-        tg.events.callback_query(update)
+        events.callback_query(update)
 
     elif update.message.photo:
-        await tg.events.photo_message(update)
+        await events.photo_message(update)
 
     elif update.message.text[0] == '/':
-        await tg.events.text_message(update)
+        await events.text_message(update)
 
     elif getattr(update.message, 'reply_to_message'):
-        await tg.events.reply_to_message(update)
+        await events.reply_to_message(update)
 
     elif update.message.text:
-        await tg.events.text_message(update)
+        await events.text_message(update)
 
     return web.Response()
