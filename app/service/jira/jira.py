@@ -38,11 +38,11 @@ class Issue:
 
         return cls(**data)
 
-    def process_event(self,
-                      event: str,
-                      initiator: str,
-                      assignee: str,
-                      creator: str):
+    async def process_event(self,
+                            event: str,
+                            initiator: str,
+                            assignee: str,
+                            creator: str):
         match event:
             case 'jira:issue_created':
                 text = f'Created task ' \
