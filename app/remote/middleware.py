@@ -6,7 +6,7 @@ from aiohttp.web import middleware
 async def log_middleware(request, handler):
     data = await request.json()
 
-    info = f'''[{request.method}: {request.url}] [{data}]'''
+    info = f'''"method": {request.method} "url": {request.url} "json": {data}'''
 
     logging.info(info)
 
