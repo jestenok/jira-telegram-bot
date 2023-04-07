@@ -3,10 +3,12 @@
 # from remote.router import create_routes
 # from remote.middleware import log_middleware
 # import logging
-#
+import time
 
 if __name__ == '__main__':
-    print('Starting server')
+    while True:
+        print('Hello world')
+        time.sleep(1)
     # logging.info('Starting server')
     #
     # init_db()
