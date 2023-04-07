@@ -8,12 +8,10 @@ import logging
 import os
 import sys
 
-from telegram import Bot
-
 
 # Bot
 TOKEN = os.getenv('TELEGRAM_TOKEN')
-bot = Bot(TOKEN)
+USE_WEBHOOK = os.getenv('USE_WEBHOOK') == 'True'
 
 
 # Jira

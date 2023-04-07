@@ -1,5 +1,5 @@
 from telegram import InlineKeyboardButton, InlineKeyboardMarkup
-from settings import bot
+from bot import app_tg
 
 
 class Issue:
@@ -69,6 +69,6 @@ class Issue:
              InlineKeyboardButton('Done', callback_data=f'{self.key}/41')]
         ])
 
-        await bot.send_message(assignee, text, parse_mode='HTML', reply_markup=keyboard)
+        await app_tg.send_message(assignee, text, parse_mode='HTML', reply_markup=keyboard)
         if assignee != creator:
-            await bot.send_message(creator, text, parse_mode='HTML', reply_markup=keyboard)
+            await app_tg.send_message(creator, text, parse_mode='HTML', reply_markup=keyboard)

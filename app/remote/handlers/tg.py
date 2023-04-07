@@ -1,28 +1,12 @@
 from aiohttp import web
-
-from settings import bot
-
+from bot import app_tg
 from telegram import Update
-from service.tg import events
 
 
 async def telegram_handle(request):
     json = await request.json()
-    update = Update.de_json(json, bot)
+    update = Update.de_json(json, app_tg.bot)
 
-    if getattr(update, 'callback_query'):
-        events.callback_query(update)
-
-    elif update.message.photo:
-        await events.photo_message(update)
-
-    elif update.message.text[0] == '/':
-        await events.text_message(update)
-
-    elif getattr(update.message, 'reply_to_message'):
-        await events.reply_to_message(update)
-
-    elif update.message.text:
-        await events.text_message(update)
+    await app_tg.process_update(update)
 
     return web.Response()
