@@ -1,6 +1,6 @@
 from aiohttp import web
 
-from app import bot
+from settings import bot
 
 from telegram import Update
 from service.tg import events
