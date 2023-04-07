@@ -1,7 +1,7 @@
+from app import init_db, TOKEN
 from aiohttp import web
 from remote.router import create_routes
 from remote.middleware import log_middleware
-from app import init_db, TOKEN
 import logging
 
 

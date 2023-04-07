@@ -1,5 +1,6 @@
 from aiohttp import web
 
+from app import TOKEN
 from app import bot
 
 from telegram import Update
