@@ -3,7 +3,7 @@ from aiohttp import web
 from remote.router import create_routes
 from remote.middleware import log_middleware
 import logging
-from bot import app_tg
+from service.tg.bot import app_tg
 
 
 if __name__ == '__main__':

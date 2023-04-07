@@ -1,5 +1,5 @@
 from telegram import InlineKeyboardButton, InlineKeyboardMarkup
-from bot import app_tg
+from service.tg.bot import app_tg
 
 
 class Issue:
