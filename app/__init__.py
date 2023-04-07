@@ -32,7 +32,7 @@ os.mkdir(LOG_DIR) if not os.path.exists(LOG_DIR) else None
 
 logFormatter = logging.Formatter("%(asctime)s [%(threadName)-0.12s] [%(levelname)-0.5s] %(message)s")
 
-fileHandler = logging.FileHandler("{0}/{1}.log".format(LOG_DIR, "bot.log"))
+fileHandler = logging.FileHandler("{0}/{1}.log".format(LOG_DIR, "bot"))
 fileHandler.setFormatter(logFormatter)
 
 rootLogger = logging.getLogger()
