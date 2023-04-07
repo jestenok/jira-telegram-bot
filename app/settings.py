@@ -8,6 +8,7 @@ import logging
 import os
 import sys
 
+HOSTNAME = os.getenv('HOSTNAME')
 
 # Bot
 TOKEN = os.getenv('TELEGRAM_TOKEN')

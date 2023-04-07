@@ -1,5 +1,7 @@
 web:
   host: "jestenok.com"
+  hostname: "https://jestenok.com:8443"
+
   tls:
     enabled: false
 

@@ -72,3 +72,8 @@ spec:
                 configMapKeyRef:
                   name: jira-telegram-bot
                   key: jira_public_domainname
+            - name: HOSTNAME
+              valueFrom:
+                configMapKeyRef:
+                  name: jira-telegram-bot
+                  key: hostname
