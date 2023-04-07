@@ -1,6 +1,7 @@
 from aiohttp import web
-from remote.router import add_routes
-from app import init_db
+from remote.router import create_routes
+from remote.middleware import log_middleware
+from app import init_db, TOKEN
 import logging
 
 
@@ -11,7 +12,9 @@ if __name__ == '__main__':
     logging.info('DB initialized')
 
     app = web.Application()
-    add_routes(app)
+    app.add_routes(create_routes(TOKEN))
+    app.middlewares.append(log_middleware)
+
     web.run_app(app,
                 access_log=None,
                 port=8080)

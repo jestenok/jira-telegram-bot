@@ -1,12 +1,10 @@
 from aiohttp import web
 
-from app import TOKEN
 from app import bot
 
 from telegram import Update
 from service.tg import events
 
-print(TOKEN)
 
 async def telegram_handle(request):
     json = await request.json()

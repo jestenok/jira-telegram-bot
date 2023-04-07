@@ -13,3 +13,7 @@ async def log_middleware(request, handler):
 
     response = await handler(request)
     return response
+
+
+def setup_middlewares(app):
+    app.middlewares.append(log_middleware)
