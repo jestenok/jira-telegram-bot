@@ -12,11 +12,12 @@ from service.tg.handlers.text import text
 from service.tg.handlers.callback import callback_query
 from service.tg.handlers.reply import reply
 
-from settings import TOKEN
+from settings import TG_TOKEN, TG_HOST, TG_USE_WEBHOOK
 import asyncio
+import atexit
 
 
-def create_app(token):
+def create_app(token, use_webhook=False, host=None):
     app = Application.builder().token(token).build()
 
     app.add_handler(CommandHandler('start', start))
@@ -31,7 +32,15 @@ def create_app(token):
     loop = asyncio.get_event_loop()
     loop.run_until_complete(app.initialize())
 
+    if use_webhook:
+        loop.run_until_complete(app.set_webhook(f'{host}/{token}/'))
+        atexit.register(
+            lambda: loop.run_until_complete(
+                app.bot.delete_webhook(f'{TG_HOST}/{TG_TOKEN}/')))
+    elif host:
+        loop.run_until_complete(app.bot.delete_webhook(f'{host}/{token}/'))
+
     return app
 
 
-app_tg = create_app(TOKEN)
+app_tg = create_app(TG_TOKEN, TG_USE_WEBHOOK, TG_HOST)

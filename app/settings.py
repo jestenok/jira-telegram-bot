@@ -8,18 +8,17 @@ import logging
 import os
 import sys
 
-HOSTNAME = os.getenv('HOSTNAME')
 
 # Bot
-TOKEN = os.getenv('TELEGRAM_TOKEN')
-USE_WEBHOOK = os.getenv('USE_WEBHOOK') == 'True'
+TG_HOST = os.getenv('TG_HOST')
+TG_TOKEN = os.getenv('TG_TOKEN')
+TG_USE_WEBHOOK = os.getenv('TG_USE_WEBHOOK', 'false') == 'true'
 
 
 # Jira
-JIRA_HOST = os.getenv('JIRA_HOST')
-
-JIRA_PUBLIC_DOMAINNAME = os.getenv("JIRA_PUBLIC_DOMAINNAME")
-JIRA_AUTH_LINK = f'{JIRA_PUBLIC_DOMAINNAME}/secure/ViewProfile.jspa?' \
+JIRA_HOST = os.getenv("JIRA_HOST")
+JIRA_PUBLIC_HOST = os.getenv("JIRA_PUBLIC_HOST")
+JIRA_AUTH_LINK = f'{JIRA_PUBLIC_HOST}/secure/ViewProfile.jspa?' \
                  f'selectedTab=com.atlassian.pats.pats-plugin:jira-user-personal-access-tokens'
 
 

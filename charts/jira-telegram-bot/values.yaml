@@ -19,4 +19,5 @@ db:
   password: "123"
 
 telegram:
+  use_webhook: "true"
   token: "qwe"
