@@ -9,9 +9,7 @@ from .middleware import log_middleware
 from settings import TOKEN
 
 
-def new_app():
-    app = web.Application()
-
+def add_routes(app: web.Application):
     app.middlewares.append(log_middleware)
 
     app.add_routes([web.post(f'/{TOKEN}/', telegram_handle),
