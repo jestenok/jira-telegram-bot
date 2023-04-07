@@ -1,17 +1,8 @@
-from settings import init_db
 from aiohttp import web
-from remote.router import add_routes
-import logging
+from app import create_app
 
 
 if __name__ == '__main__':
-    logging.info('Starting server')
-    init_db()
-
-    logging.info('DB initialized')
-
-    app = web.Application()
-    add_routes(app)
-    web.run_app(app,
+    web.run_app(create_app(),
                 access_log=None,
                 port=8080)

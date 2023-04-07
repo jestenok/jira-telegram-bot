@@ -6,7 +6,7 @@ from remote.handlers.health import health_handle
 
 from .middleware import log_middleware
 
-from settings import TOKEN
+from app import TOKEN
 
 
 def add_routes(app: web.Application):

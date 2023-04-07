@@ -1,5 +1,5 @@
 from sqlalchemy import Column, Integer, String, DateTime, Boolean, sql
-from settings import Base, db_session, JIRA_HOST
+from app import Base, db_session, JIRA_HOST
 from jira import JIRA
 
 

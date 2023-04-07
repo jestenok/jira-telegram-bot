@@ -1,7 +1,7 @@
 from telegram import Update
 
 from storage.models import User
-from settings import JIRA_AUTH_LINK
+from app import JIRA_AUTH_LINK
 
 
 def callback_query(update: Update):
