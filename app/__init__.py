@@ -1,6 +1,3 @@
-from aiohttp import web
-from remote.router import add_routes
-
 from sqlalchemy import create_engine
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import scoped_session, sessionmaker
@@ -69,13 +66,3 @@ Base.query = db_session.query_property()
 def init_db():
     Base.metadata.create_all(bind=engine)
 
-
-def create_app():
-    logging.info('Starting server')
-    init_db()
-
-    logging.info('DB initialized')
-
-    app = web.Application()
-    add_routes(app)
-    return app
