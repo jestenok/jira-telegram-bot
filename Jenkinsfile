@@ -7,7 +7,7 @@ pipeline {
     environment {
         DOCKERHUB_CREDENTIALS = credentials('dockerhub')
         IMAGE = "jestenok/jira-telegram-bot"
-        VERSION = "1.0"
+        VERSION = "1.1"
         TAG = "${IMAGE}:${VERSION}.${BUILD_NUMBER}"
     }
     stages {
