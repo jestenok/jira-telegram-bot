@@ -14,6 +14,7 @@ if __name__ == '__main__':
     logging.info('DB initialized')
 
     if TG_USE_WEBHOOK:
+        logging.info('Starting webhook')
         app = web.Application()
         app.add_routes(create_routes(TG_TOKEN))
         app.middlewares.append(log_middleware)
@@ -22,4 +23,5 @@ if __name__ == '__main__':
                     access_log=None,
                     port=8080)
     else:
+        logging.info('Starting polling')
         app_tg.run_polling()
