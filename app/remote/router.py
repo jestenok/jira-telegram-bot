@@ -6,7 +6,7 @@ from remote.handlers.health import health_handle
 
 
 def create_routes(token):
-    routes = [web.post(f'/{token}/', telegram_handle),
-              web.post(f'/{token}/jira/tasks/', jira_handle),
-              web.get(f'/{token}/health/', health_handle)]
+    routes = [web.post(f'/jira-telegram-bot/{token}/', telegram_handle),
+              web.post(f'/jira-telegram-bot/{token}/jira/tasks/', jira_handle),
+              web.get(f'/jira-telegram-bot/{token}/health/', health_handle)]
     return routes
