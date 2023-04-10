@@ -33,12 +33,12 @@ def create_app(token, use_webhook=False, host=None):
     loop.run_until_complete(app.initialize())
 
     if use_webhook:
-        loop.run_until_complete(app.set_webhook(f'{host}/{token}/'))
+        loop.run_until_complete(app.bot.set_webhook(f'{host}/jira-telegram-bot/{token}/'))
         atexit.register(
             lambda: loop.run_until_complete(
                 app.bot.delete_webhook(f'{TG_HOST}/{TG_TOKEN}/')))
     elif host:
-        loop.run_until_complete(app.bot.delete_webhook(f'{host}/{token}/'))
+        loop.run_until_complete(app.bot.delete_webhook(f'{host}/jira-telegram-bot/{token}/'))
 
     return app
 
